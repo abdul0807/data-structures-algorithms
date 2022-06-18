@@ -16,13 +16,15 @@ def bubble_sort(array):
 
 if __name__ == "__main__":
     import random
+    random.seed(0)
 
-    random.seed(100)
-    input_arr = [i for i in range(1000)]
-    random.shuffle(input_arr)
-    print(input_arr[:10])
+    # creating random array
+    arr = [i for i in range(1000)]
+    random.shuffle(arr)
+    print(arr[:10])
 
-    result = bubble_sort(input_arr)
+    # bubble sorting
+    result = bubble_sort(arr)
     print(result[:10])
 
 """

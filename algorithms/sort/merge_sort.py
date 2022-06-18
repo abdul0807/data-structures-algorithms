@@ -51,12 +51,14 @@ def merge_sort(array, l, r):
 
 if __name__ == "__main__":
     import random
-
     random.seed(0)
+
+    # creating random array
     arr = sorted(range(1000))
     random.shuffle(arr)
     print(arr[:10])
 
+    # merge sorting
     merge_sort(arr, 0, len(arr) - 1)
     print(arr[:10])
 
