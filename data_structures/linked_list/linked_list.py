@@ -209,12 +209,46 @@ class LinkedList(object):
 
         print(output_str)
 
+    def detect_loop(self, remove=False):
+        """
+        Detecting a loop in linked list using Floyd’s Cycle-Finding Algorithm
+        :param remove: True if the detected loop is supposed to be removed else False
+        :return: True if a loop is detected / removed, else False
+        """
+        if self.head is None:
+            return
+        if self.head.next is None:
+            return
+
+        slow_p = self.head
+        fast_p = self.head
+        while slow_p and fast_p and fast_p.next:
+            slow_p = slow_p.next
+            fast_p = fast_p.next.next
+
+            if slow_p == fast_p:
+                if remove:
+                    slow_p = self.head
+
+                    while slow_p.next != fast_p.next:
+                        slow_p = slow_p.next
+                        fast_p = fast_p.next
+
+                    fast_p.next = None  # Remove loop
+                return True
+        return False
+
 
 if __name__ == "__main__":
     e1 = Element(1)
     e2 = Element(2)
     e3 = Element(3)
     e4 = Element(4)
+    e5 = Element(5)
+    e6 = Element(6)
+    e7 = Element(7)
+    e8 = Element(8)
+    e9 = Element(9)
 
     ll = LinkedList(e1)
     ll.append(e2)
@@ -225,26 +259,43 @@ if __name__ == "__main__":
     print(ll.get_position(1).value)
     print(ll.get_position(3).value)
 
-    ll.insert(e4, 4)
+    ll.insert(e4, 3)
+    ll.append(e5)
+    ll.append(e6)
+    ll.append(e7)
+    ll.append(e8)
+    ll.append(e9)
     ll.print()
-    print(ll.get_position(3).value)
 
     ll.delete(4)
-    ll.print()
-
     ll.delete_index(1)
+    ll.print()
+    print("Loop detected: {}\n".format(ll.detect_loop()))
+
+    print("A loop added to the linked list")
+    ll.head.next.next.next.next.next.next.next = ll.head.next.next.next.next
+    print("Loop detected: {}\n".format(ll.detect_loop()))
+
+    # detecting and removing the loop
+    loop_removal = True
+    print("Loop detected and removed: {}\n".format(ll.detect_loop(remove=loop_removal)))
     ll.print()
 
 """
 Output
 
-1->2->
-1->2->3->
+1-->2-->
+1-->2-->3-->
 1
 3
-1->2->3->4->
-3
-1->2->3->
-2->3->
+1-->2-->4-->3-->5-->6-->7-->8-->9-->
+2-->3-->5-->6-->7-->8-->9-->
+Loop detected: False
 
+A loop added to the linked list
+Loop detected: True
+
+Loop detected and removed: True
+
+2-->3-->5-->6-->7-->8-->9-->
 """
